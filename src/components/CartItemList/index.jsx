@@ -1,12 +1,21 @@
+import propTypes from 'prop-types';
 import CartItem from "../CartItem";
 
-const CartItemList = () => {
+const CartItemList = ({items}) => {
     return (
         <div className="cart-item-list">
-        <CartItem/>
-        <CartItem/>
-        <CartItem/>
+            {items.map(( item ) => (
+            <CartItem key={item.id} item={item} />
+            ))
+        }
     </div>
+    )
+}
+
+CartItemList.propTypes = {
+    items: propTypes.arrayOf(propTypes.shape ({
+        id: propTypes.string.isRequired,
+        })
     )
 }
 
