@@ -1,14 +1,16 @@
+import style from './style.module.scss';
+
 const CartInputForm = () => {
   return (
-    <div className="cart-input-form">
+    <div className={style.cartInputForm}>
     <form>
-      <label>
-        <span>name</span>
+      <label className={style.label}>
+        <span className={style.title}>name</span>
         <input type="text" />
       </label>
 
-      <label>
-        <span>price</span>
+      <label className={style.label}>
+        <span className={style.title}>price</span>
         <input type="number" />
       </label>
 
