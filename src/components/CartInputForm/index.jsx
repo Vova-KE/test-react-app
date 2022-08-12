@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import useToggle from '../../hooks/useToggle';
 import style from './style.module.scss';
 
 const CartInputForm = ({ onSubmit }) => {
-  const [visible, setVisible] = useState(true);
-  const toggleForm = () => setVisible(prev => !prev);
+  const {visible, toggle} = useToggle();
   
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
@@ -30,27 +30,27 @@ const CartInputForm = ({ onSubmit }) => {
 
   return (
     <div className={style.cartInputForm}>
-      <button type='button' onClick={toggleForm}>Show/Hide</button>
+      <button type='button' onClick={toggle}>Show/Hide</button>
       
       {visible && 
-      <form onSubmit={handleSubmit}>
-        <label className={style.label}>
-          <span className={style.title}>name</span>
-            <input type="text" value={name} onChange={handleNameChange} />
-        </label>
-
-        <label className={style.label}>
-          <span className={style.title}>price</span>
-          <input type="number" value={price} onChange={handlePriceChange}/>
-        </label>
+        <form onSubmit={handleSubmit}>
+          <label className={style.label}>
+            <span className={style.title}>name</span>
+              <input type="text" value={name} onChange={handleNameChange} />
+          </label>
 
           <label className={style.label}>
-            <span>extended guarantee</span>
-            <input type='checkbox' checked={extendedGuarantee} onChange={handleEGChange}/>
-        </label>
+            <span className={style.title}>price</span>
+            <input type="number" value={price} onChange={handlePriceChange}/>
+          </label>
 
-        <button type="submit">+ add</button>
-      </form>
+            <label className={style.label}>
+              <span>extended guarantee</span>
+              <input type='checkbox' checked={extendedGuarantee} onChange={handleEGChange}/>
+          </label>
+
+          <button type="submit">+ add</button>
+        </form>
       }
 
     </div>

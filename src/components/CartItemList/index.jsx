@@ -1,16 +1,15 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import propTypes from 'prop-types';
+import useToggle from '../../hooks/useToggle';
 import CartItem from "../CartItem";
 import styles from "./style.module.css";
 
 const CartItemList = ({items,  /*...rest,*/ onRemoveItem, onDecrement, onIncrement, onChangeCount }) => {
-    const [visible, setVisible] = useState(false);
-    const toggleList = () => setVisible(prev => !prev)
-
+    const {visible, toggle} = useToggle();
     
     return (
         <div className={styles.cartItemList}>
-            <button type='button' onClick={toggleList}>Show/Hide</button>
+            <button type='button' onClick={toggle}>Show/Hide</button>
 
             {visible && 
                 items.map(( item ) => (

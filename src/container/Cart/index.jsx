@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+// import { useState, useEffect, useCallback, useMemo } from "react";
 import CartInputForm from "../../components/CartInputForm";
 import Loader from "../../components/Loader";
 import CartItemList from "../../components/CartItemList";
 import TotalAmount from "../../components/TotalAmount";
-import { fetchCartItems, deleteItem, addItem, updateItem } from "../../components/api/cartApi";
-import UseEffComponent from "../../components/UseEffComponent";
+// import { fetchCartItems, deleteItem, addItem, updateItem } from "../../components/api/cartApi";
+// import UseEffComponent from "../../components/UseEffComponent";
+import useCartData from "../../hooks/useCartData";
 
 // const initialState = [
 //     { id: '1', name: 'printer', price: 110, count: 2, extendedGuarantee: false },
@@ -14,125 +15,134 @@ import UseEffComponent from "../../components/UseEffComponent";
 // ];
 
 const Cart = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [items, setItems] = useState([]);
-    const [error, setError] = useState('');
+    const {
+        isLoading,
+        items,
+        error,
+        handleChangeCount,
+        handleRemoveItem,
+        handleAddItem
+    } = useCartData()
 
-    const UseEffComponentItems = useMemo(
-        () => items.filter(item => item.count === 0),
-        [items]
-    );
+//     const [isLoading, setIsLoading] = useState(false);
+//     const [items, setItems] = useState([]);
+//     const [error, setError] = useState('');
 
-    // const handleDecrement = (id) => {
-    //     setItems(prev =>
-    //         prev.map(item =>
-    //             item.id === id
-    //                 ? {
-    //                     ...item,
-    //                     count: item.count > 0 ? item.count - 1 : 0,
-    //                 }
-    //                 : item
-    //         )
-    //     )
-    // };
+//     const UseEffComponentItems = useMemo(
+//         () => items.filter(item => item.count === 0),
+//         [items]
+//     );
 
-    // const handleIncrement = (id) => {0
-    //         prev.map(item =>
-    //             item.id === id
-    //                 ? {
-    //                     ...item,
-    //                     count: item.count + 1,
-    //                 }
-    //                 : item
-    //         )
-    //     )
-    // };
+//     // const handleDecrement = (id) => {
+//     //     setItems(prev =>
+//     //         prev.map(item =>
+//     //             item.id === id
+//     //                 ? {
+//     //                     ...item,
+//     //                     count: item.count > 0 ? item.count - 1 : 0,
+//     //                 }
+//     //                 : item
+//     //         )
+//     //     )
+//     // };
 
-    const handleChangeCount = useCallback((id, step) => {
-        setItems((prev) =>
-            prev.map((item) => {
-                if (item.id === id) {
-                    const updatedItem = {
-                        ...item,
-                        count: item.count + step >= 0 ? item.count + step : item.count,
-                    };
+//     // const handleIncrement = (id) => {0
+//     //         prev.map(item =>
+//     //             item.id === id
+//     //                 ? {
+//     //                     ...item,
+//     //                     count: item.count + 1,
+//     //                 }
+//     //                 : item
+//     //         )
+//     //     )
+//     // };
 
-                    updateItem(id, { count: updatedItem.count });
+//     const handleChangeCount = useCallback((id, step) => {
+//         setItems((prev) =>
+//             prev.map((item) => {
+//                 if (item.id === id) {
+//                     const updatedItem = {
+//                         ...item,
+//                         count: item.count + step >= 0 ? item.count + step : item.count,
+//                     };
 
-                    return updatedItem;
-                } else {
-                    return item;
-                }
-            })
-        );
-    },[setItems]
-    )
+//                     updateItem(id, { count: updatedItem.count });
 
-    const handleRemoveItem = useCallback((id) => {
-        setIsLoading(true);
+//                     return updatedItem;
+//                 } else {
+//                     return item;
+//                 }
+//             })
+//         );
+//     },[setItems]
+//     )
 
-        deleteItem(id)
-            .then(() => {
-                setItems((prev) => prev.filter((item) => item.id !== id))
-            })
-            .catch(({message}) => setError(message))
-            .finally(() => {
-                setIsLoading(false);
-            });
-    },[setIsLoading]
-    )
+//     const handleRemoveItem = useCallback((id) => {
+//         setIsLoading(true);
+
+//         deleteItem(id)
+//             .then(() => {
+//                 setItems((prev) => prev.filter((item) => item.id !== id))
+//             })
+//             .catch(({message}) => setError(message))
+//             .finally(() => {
+//                 setIsLoading(false);
+//             });
+//     },[setIsLoading]
+//     )
         
 
-    const handleAddItem = (newItem) => {
-        setIsLoading(true);
+//     const handleAddItem = (newItem) => {
+//         setIsLoading(true);
 
-        addItem(newItem)
-            .then((data) => {
-            setItems((prev) => [...prev, data])
-            })
-            .catch(({ message }) => setError(message))
-            .finally(() => {
-                setIsLoading(false);
-            });
-    };
+//         addItem(newItem)
+//             .then((data) => {
+//             setItems((prev) => [...prev, data])
+//             })
+//             .catch(({ message }) => setError(message))
+//             .finally(() => {
+//                 setIsLoading(false);
+//             });
+//     };
 
-    useEffect(() => {
-        setIsLoading(true);
+//     useEffect(() => {
+//         setIsLoading(true);
 
-        fetchCartItems()
-            .then(setItems)
-            .catch(({message}) => setError(message))
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, []);
+//         fetchCartItems()
+//             .then(setItems)
+//             .catch(({message}) => setError(message))
+//             .finally(() => {
+//                 setIsLoading(false);
+//             });
+//     }, []);
 
-    //не работает - после перезагрузки старнийцы данные в локалсторедж исчезают
-    useEffect(() => {
-        // console.log('componentDidMount');
+//     //не работает - после перезагрузки старнийцы данные в локалсторедж исчезают
+//     useEffect(() => {
+//         // console.log('componentDidMount');
 
-        // setIsLoading(true);
-        // setTimeout(() => {
-        //     setItems(initialState);
-        //     setIsLoading(false);
-        // }, 2000)
-        // try {
-        //     setItems(JSON.parse(localStorage.getItem('cart')));
-        // } catch (error) {
-        //     console.log(error.message);
-        // }
-    //     try {
-    //         setItems(JSON.parse(localStorage.getItem('cart')));
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // }, []);
-    try {
-      setItems(JSON.parse(localStorage.getItem('cart')));
-    } catch (error) {
-      console.log(error.message);
-    }
-  }, []);
+//         // setIsLoading(true);
+//         // setTimeout(() => {
+//         //     setItems(initialState);
+//         //     setIsLoading(false);
+//         // }, 2000)
+//         // try {
+//         //     setItems(JSON.parse(localStorage.getItem('cart')));
+//         // } catch (error) {
+//         //     console.log(error.message);
+//         // }
+//     //     try {
+//     //         setItems(JSON.parse(localStorage.getItem('cart')));
+//     //     } catch (error) {
+//     //         console.log(error.message);
+//     //     }
+//     // }, []);
+//     try {
+//       setItems(JSON.parse(localStorage.getItem('cart')));
+//     } catch (error) {
+//       console.log(error.message);
+//     }
+//   }, []);
 
     //не работает - после перезагрузки старнийцы данные в локалсторедж исчезают
     // useEffect(() => {
@@ -164,7 +174,7 @@ const Cart = () => {
                 onChangeCount={handleChangeCount}
             />
             <TotalAmount items={items} />
-            <UseEffComponent items={UseEffComponentItems} />
+            {/* <UseEffComponent items={UseEffComponentItems} /> */}
         </div>
     );
 };

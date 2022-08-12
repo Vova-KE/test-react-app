@@ -27,6 +27,13 @@
       "price": 120,
       "extendedGuarantee": true,
       "id": "vhUV103"
+    },
+    {
+      "count": 1,
+      "name": "mouse",
+      "price": 10,
+      "extendedGuarantee": false,
+      "id": "K9uBYj8"
     }
   ]
 }
