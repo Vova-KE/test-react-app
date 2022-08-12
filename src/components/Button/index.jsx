@@ -7,6 +7,10 @@ const Button = styled.button`
     border-radius: 5px;
 `;
 
-export const CloseButton = () => <Button>x</Button>;
+export const CloseButton = ({ item = {}, onRemoveItem }) => (
+    <Button onClick={onRemoveItem}>
+        x
+    </Button>
+);
 
 export default Button;

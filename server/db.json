@@ -1,0 +1,32 @@
+{
+  "cart": [
+    {
+      "id": "3",
+      "name": "MB",
+      "price": 150,
+      "count": 2,
+      "extendedGuarantee": true
+    },
+    {
+      "name": "CPU",
+      "price": 100,
+      "count": 1,
+      "extendedGuarantee": false,
+      "id": "7yyvIBo"
+    },
+    {
+      "count": 1,
+      "name": "printer",
+      "price": 50,
+      "extendedGuarantee": true,
+      "id": "-k86qhP"
+    },
+    {
+      "count": 1,
+      "name": "GPU",
+      "price": 120,
+      "extendedGuarantee": true,
+      "id": "vhUV103"
+    }
+  ]
+}
